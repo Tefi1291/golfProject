@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataLayer.ADL;
+using GolfAPI.Core.Contracts;
+using GolfAPI.Core.Contracts.DataAccess;
+using GolfAPI.Core.Contracts.Managers;
+using GolfAPI.Core.Managers;
+using GolfAPI.DataLayer.ADL;
+using GolfAPI.DataLayer.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +33,19 @@ namespace GolfAPI
             //database config
             var connection = Configuration.GetConnectionString("GolfTestConnection");
             services.AddDbContext<GolfDatabaseContext>
-                (options => options.UseSqlServer(connection));
+                (options => {
+                    options.UseSqlServer(connection);
+             
+                });
+            // create repository service
+            services.AddScoped<BaseRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IComponentRepository, ComponentRepository>();
+            //create managers
+            services.AddScoped<IOrderManager, OrderManager>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

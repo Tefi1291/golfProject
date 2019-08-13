@@ -5,10 +5,6 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolfAPI", "GolfAPI\GolfAPI.csproj", "{3EC7BA29-6B8A-4085-8416-EE54E7F86BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{4DEB3FF9-8504-4E5B-AFB7-0D2B06FD4A92}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{D34A5514-FA3D-4168-928D-E39A82EE9B95}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{3EC7BA29-6B8A-4085-8416-EE54E7F86BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EC7BA29-6B8A-4085-8416-EE54E7F86BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EC7BA29-6B8A-4085-8416-EE54E7F86BB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DEB3FF9-8504-4E5B-AFB7-0D2B06FD4A92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DEB3FF9-8504-4E5B-AFB7-0D2B06FD4A92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DEB3FF9-8504-4E5B-AFB7-0D2B06FD4A92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DEB3FF9-8504-4E5B-AFB7-0D2B06FD4A92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D34A5514-FA3D-4168-928D-E39A82EE9B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D34A5514-FA3D-4168-928D-E39A82EE9B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D34A5514-FA3D-4168-928D-E39A82EE9B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D34A5514-FA3D-4168-928D-E39A82EE9B95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
