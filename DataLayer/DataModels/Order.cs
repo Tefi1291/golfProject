@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DataLayer.DataModels
@@ -16,9 +17,10 @@ namespace DataLayer.DataModels
         public DateTime DateCreated { get; set; }
         public DateTime DateRequired { get; set; }
         public string Description { get; set; }
+        public ICollection<OrderComponent> Components { get; set; }
 
-        public int CreatedBy { get; set; }
-        public ICollection<IOrderComponent> Components { get; set; }
+        public int UserForeignKey { get; set; }
+        public User CreatedBy { get; set; }
     }
 
     public interface IOrder
@@ -32,9 +34,11 @@ namespace DataLayer.DataModels
         DateTime DateRequired { get; set; }
 
         string Description { get; set; }
-        //Foreign key to User->Id
-        int CreatedBy { get; set; }
+        //Foreign key to User->Id        
+        int UserForeignKey { get; set; }
+
+        User CreatedBy { get; set; }
         //
-        ICollection<IOrderComponent> Components { get; set; }
+        ICollection<OrderComponent> Components { get; set; }
     }
 }

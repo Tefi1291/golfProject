@@ -9,6 +9,7 @@ namespace DataLayer.DataModels
         public int Id { get; set; }
         public string ComponentCode { get; set; }
         public string Description { get; set; }
+        public ICollection<OrderComponent> Orders { get; set; }
 
         public Component()
         {
@@ -24,5 +25,7 @@ namespace DataLayer.DataModels
         string ComponentCode { get; set; }
         // Optional description
         string Description { get; set; }
+        //
+        ICollection<OrderComponent> Orders { get; set; }
     }
 }

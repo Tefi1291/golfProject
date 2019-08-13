@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLayer.DataModels
 {
@@ -15,15 +17,18 @@ namespace DataLayer.DataModels
 
         public Guid Guid { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [StringLength(16)]
         public string Username { get; set; }
 
         public string Firstname { get; set; }
 
         public string Lastname { get; set; }
 
-        public RoleEnum Role { get; set; }
+        public string Password { get; set; }
 
-        public ICollection<IOrder> Orders { get; set; }
+        public RoleEnum Role { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 
     public enum RoleEnum
@@ -44,8 +49,10 @@ namespace DataLayer.DataModels
 
         string Lastname { get; set; }
 
+        string Password { get; set; }
+
         RoleEnum Role { get; set; }
 
-        ICollection<IOrder> Orders { get; set; }
+        ICollection<Order> Orders { get; set; }
     }
 }

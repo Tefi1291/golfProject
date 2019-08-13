@@ -8,15 +8,25 @@ namespace DataLayer.ADL
 {
     public class GolfDatabaseContext: DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderComponent> OrdersComponent { get; set; }
+        public DbSet<Component> Components { get; set; }
+
         public GolfDatabaseContext(DbContextOptions<GolfDatabaseContext> options): base(options)
         {
             
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderComponent> OrdersComponent { get; set; }
-        public DbSet<Component> Components { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.CreatedBy)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserForeignKey);
+        }
+
+       
 
 
     }
