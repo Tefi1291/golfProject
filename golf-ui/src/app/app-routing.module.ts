@@ -8,7 +8,7 @@ import { ImportCsvComponent } from './import-csv/import-csv.component';
 
 const routes: Routes = 
 [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: '', redirectTo: 'orders', pathMatch: 'full'},
   {path: 'login', component: LoginComponent },
    {path:'orders', component: OrderListComponent, canActivate: [AuthGuard]},
   {path: 'orders/add', component: OrderDetailsComponent, canActivate: [AuthGuard]},
