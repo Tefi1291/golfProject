@@ -17,23 +17,31 @@ export class HeaderComponent implements OnInit {
   constructor(
     private _router: Router,
     private _globalService: GlobalService
-  ) { }
+  ) 
+  {
+    this.getUsername(this._globalService.loginData);
+    this._globalService.userData.subscribe(this.getUsername);
+
+  }
 
   ngOnInit() {
 
-    this._globalService.userData.subscribe((next: string) => {
+  }
+
+  getUsername(next: string)
+  {
+    
       if(next.length == 0)
       {
         this.username = "";
       }
+
       else{
         let userDataResponse = JSON.parse(next) as LoginResponse;
         this.username = (userDataResponse) ?
         userDataResponse.username :
           "";
       }
-    });
-    
   }
 
   logout(): void {

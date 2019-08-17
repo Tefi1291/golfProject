@@ -20,5 +20,8 @@ export class GlobalService {
     return localStorage.getItem('user');
 
   }
-
+  constructor()
+  {
+    this.loginData = localStorage.getItem('user');
+  }
 }
