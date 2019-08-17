@@ -25,8 +25,8 @@ namespace GolfAPI.DataLayer.ADL
                 .WithMany(u => u.Orders)
                 .HasForeignKey(o => o.UserForeignKey);
 
-            //seed a user
-            
+            //seed with a user
+            //only for testing purposes
             modelBuilder.Entity<User>()
                 .HasData(
                     new User()

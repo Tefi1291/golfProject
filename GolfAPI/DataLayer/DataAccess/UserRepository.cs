@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GolfAPI.DataLayer.DataAccess
 {
+
     public class UserRepository: BaseRepository, IUserRepository
     {
         public UserRepository(GolfDatabaseContext context) : base(context)

@@ -50,11 +50,5 @@ namespace GolfAPI.DataLayer.DataAccess
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateOrder(Order order)
-        {
-            _context.Entry(order).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            await _context.SaveChangesAsync();
-        }
     }
 }
