@@ -1,0 +1,37 @@
+.sidebar {
+    width: 225px !important;
+    height: 100%;
+    background-color: #212529;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  .sidebar .nav
+  {
+      padding-top: 60px;
+      position: fixed;
+      z-index: 1;
+
+  }
+  .sidebar .nav-item .nav-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 1rem;
+    width: 225px;
+    color: whitesmoke;
+  }
+  .sidebar .nav-item .nav-link span {
+    font-size: 1rem;
+    display: inline;
+  }
+  .sidebar .nav-item .dropdown-menu {
+    position: static !important;
+    margin: 0 1rem;
+    top: 0;
+  }
+  .sidebar .nav-item.dropdown .dropdown-toggle::after {
+    display: block;
+  }
+  .sidebar.toggled {
+    overflow: visible;
+    width: 90px !important;
+  }

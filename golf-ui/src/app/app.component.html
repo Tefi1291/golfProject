@@ -4,11 +4,14 @@
 </header>
 
 <!-- main content -->
-<main role="main" class=" " style="padding: 100px">
 
+  <div class="container-fluid text-center app-wrapper" >
+    <div class="row content content-wrapper">
+      <app-sidebar></app-sidebar>
+      <div class="col-8 mt-5 pt-5 justify-content-center"> 
+          <router-outlet></router-outlet>
 
-    
-    <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 
-
-</main>
