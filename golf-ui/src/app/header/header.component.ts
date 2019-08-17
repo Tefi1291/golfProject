@@ -11,26 +11,17 @@ import { GlobalService } from '../global.service';
 export class HeaderComponent implements OnInit {
 
   title: string = "GOLF OMS";
-  private _loginResponse: LoginResponse;
-  private username: string = "";
+  _loginResponse: LoginResponse;
+  username: string = "";
 
   constructor(
     private _router: Router,
     private _globalService: GlobalService
   ) 
   {
-    this.getUsername(this._globalService.loginData);
-    this._globalService.userData.subscribe(this.getUsername);
-
-  }
-
-  ngOnInit() {
-
-  }
-
-  getUsername(next: string)
-  {
-    
+    //we subscribe event -> localstorage user data change
+    this._globalService.userData.subscribe((next:string) =>
+    {
       if(next.length == 0)
       {
         this.username = "";
@@ -42,7 +33,16 @@ export class HeaderComponent implements OnInit {
         userDataResponse.username :
           "";
       }
+    });
+
+    this._globalService.loginData = localStorage.getItem('user');
+
   }
+
+  ngOnInit() {
+
+  }
+
 
   logout(): void {
 

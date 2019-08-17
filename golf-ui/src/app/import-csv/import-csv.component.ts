@@ -90,7 +90,7 @@ export class ImportCsvComponent implements OnInit {
         {
           ordersArray.forEach(order => {
                     //patch for dateRequired
-              order.required = "12-08-2019";
+              //order.required = "12-08-2019";
               this.orderClient.addNewOrder(order).subscribe(
                 (res: number)=>
                 {
@@ -136,7 +136,7 @@ export class ImportCsvComponent implements OnInit {
       orderToImport.number = orderNumber;
       orderToImport.components = orderComponents;
       //orderToImport.required
-      orderToImport.required = "12-08-2019";
+      //orderToImport.required = "12-08-2019";
       orderToImport.description = orderDescription;
 
       //get user

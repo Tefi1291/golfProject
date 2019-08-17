@@ -1,10 +1,16 @@
 
 .app-wrapper
 {
+    text-align: left !important;
     height: 100%;
 }
 
 .content-wrapper
 {
     height: 100%;
+}
+
+.app-content
+{
+    margin-top: 80px;
 }

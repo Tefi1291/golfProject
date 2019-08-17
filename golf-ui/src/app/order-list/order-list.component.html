@@ -1,22 +1,22 @@
 <div class="container">
-  <div class="row ">
-    <div class="col ">
-      <button class="btn btn-success " (click)="addOrderNavigate()">Add Order</button>
+  <div class="row justify-content-between">
+    <div class="col-4">
+      <button class="btn btn-success btn-block" (click)="addOrderNavigate()">Add Order</button>
 
     </div>
-    <div class="col ">
-
-      <button class="btn btn-success " (click)="importCsvNavigate()">
-        Import orders
-      </button>
-
+    <div class="col-4">
+      
+        <button class="btn btn-success btn-block" (click)="importCsvNavigate()">
+          Import orders
+        </button>
+      
     </div>
   </div>
 
-  <div class="panel panel-default" *ngIf=" 0 < listOrders.length">
+  <div class="panel panel-default pt-2" *ngIf=" 0 < listOrders.length">
     <h3 class="panel-heading"> Orders</h3>
     <div class="panel-body">
-      <table class="table table-striped">
+      <table class="table table-striped table-responsive">
         <thead>
           <tr>
             <th scope="col">Order number</th>
