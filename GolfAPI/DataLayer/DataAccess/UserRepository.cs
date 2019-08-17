@@ -13,10 +13,27 @@ namespace GolfAPI.DataLayer.DataAccess
         public UserRepository(GolfDatabaseContext context) : base(context)
         { }
 
+        public User GetUserByGuid(string guid)
+        {
+            var id = Guid.Parse(guid);
+            return _context.Users.FirstOrDefault(u => u.Guid == id);
+        }
+
         public User GetUserById(int Id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id.Equals(Id));
             return user;
+        }
+
+        public User GetUserByUsername(string username)
+        {
+            User result = null;
+            if (username != null)
+            {
+                result = _context.Users.FirstOrDefault(u => u.Username == username);
+
+            }
+            return result;
         }
     }
 }

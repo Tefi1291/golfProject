@@ -28,6 +28,13 @@ namespace GolfAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(
+                o => o.AddPolicy("AllowAngularApp", builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200")
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //database config
@@ -42,10 +49,10 @@ namespace GolfAPI
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IComponentRepository, ComponentRepository>();
+
             //create managers
             services.AddScoped<IOrderManager, OrderManager>();
-
-
+            services.AddScoped<IComponentOrderManager, ComponentOrderManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +64,7 @@ namespace GolfAPI
             }
 
             app.UseMvc();
+            
         }
     }
 }

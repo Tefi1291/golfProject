@@ -1,0 +1,16 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+    
+  <div class="container">
+    <a class="navbar-brand" href="#">GOLF OMS</a>
+    <div  class="row" *ngIf="0<username.length" >
+      <div class="col">
+        <div class="btn btn-ligth">
+          <a class="fa fa-user-o" style="color: white" ><span class="mx-1" >Welcome {{username}}!</span></a>
+        </div>
+          
+      </div>
+      <button class="btn btn-outline-success my-2 my-sm-0" (click)="logout()" >Logout</button>
+
+    </div>
+</div>
+</nav>

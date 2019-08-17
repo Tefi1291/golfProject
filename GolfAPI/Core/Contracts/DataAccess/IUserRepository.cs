@@ -9,5 +9,9 @@ namespace GolfAPI.Core.Contracts.DataAccess
     public interface IUserRepository
     {
         User GetUserById(int Id);
+
+        User GetUserByUsername(string username);
+
+        User GetUserByGuid(string guid);
     }
 }

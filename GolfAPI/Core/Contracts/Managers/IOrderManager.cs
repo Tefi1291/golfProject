@@ -9,5 +9,9 @@ namespace GolfAPI.Core.Contracts.Managers
     public interface IOrderManager
     {
         Task<IEnumerable<OrderApi>> ProcessOrders(int? Id = null );
+
+        Task<int> AddNewOrder(OrderApi data);
+
+        Task<int> UpdateOrder(OrderApi data);
     }
 }

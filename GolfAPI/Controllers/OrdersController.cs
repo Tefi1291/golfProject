@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GolfAPI.Core.Contracts.Api;
 using GolfAPI.Core.Contracts.Managers;
+using Microsoft.AspNetCore.Cors;
 
 namespace GolfAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAngularApp")] // allows our angular app to communicate with the controller
     public class OrdersController : ControllerBase
     {
         private readonly IOrderManager _manager;
@@ -38,6 +40,7 @@ namespace GolfAPI.Controllers
         {
             
             var response = await _manager.ProcessOrders(id);
+
             var order = response.FirstOrDefault(o => o.Id == id);
             var result = (order != null) ?
                 new ObjectResult(order) :
@@ -50,39 +53,38 @@ namespace GolfAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOrder(int id, OrderApi order)
         {
-            //if (id != order.Id)
-            //{
-            //    return BadRequest();
-            //}
+            //if id doesn't match -> 400 response
+            if (id != order.Id)
+            {
+                return BadRequest();
+            }
 
-            //_context.Entry(order).State = EntityState.Modified;
+            var result = await _manager.UpdateOrder(order);
 
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!OrderExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            return NoContent();
+            return new OkObjectResult(result);
         }
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<ActionResult<OrderApi>> PostOrder(OrderApi order)
+        public async Task<IActionResult> PostOrder(OrderApi order)
         {
+            ///if a controller has [ApiControlller] attribute, its binds invalid 
+            ///model parameter to 400 response
+            var result = 0;
+            
+            try
+            {
 
+                result = await _manager.AddNewOrder(order);
 
-            return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                result = -1;
+            }
+
+            return new ObjectResult(result);
         }
 
         // DELETE: api/Orders/5

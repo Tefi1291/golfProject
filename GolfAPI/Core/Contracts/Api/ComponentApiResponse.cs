@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GolfAPI.Core.Contracts.Api
 {
-    public class ComponentApiResponse
+    public class ComponentApi
     {
         [JsonProperty(PropertyName = "id")]
         public int ComponentId { get; set; }

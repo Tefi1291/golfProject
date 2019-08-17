@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row ">
+      <div class="col ">
+          <button class="btn btn-success " (click)="addOrderNavigate()">Add Order</button>
+
+      </div>
+      <div class="col ">
+         
+          <button class="btn btn-success " (click)="importCsvNavigate()" >
+            Import orders
+          </button>
+         
+      </div>
+    </div>
+  </div>
+<div *ngIf=" 0 < listOrders.length">
+  <h3>Orders</h3>
+  <div *ngFor="let o of listOrders">
+  </div>
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Order number</th>
+          <th scope="col">Date requiered</th>
+          <th scope="col">Description</th>
+          <th scope="col">No. of components</th>
+          <th scope="col">Date created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of listOrders" (click)="orderDetails(order)" style="cursor: pointer" >
+          <th> {{order.number}}</th>
+          <td> {{order.required}}</td>
+          <td>{{order.description}}</td>
+          <td>{{order.components.length}}</td>
+          <td>{{order.created}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

@@ -5,6 +5,7 @@ using System.Linq;
 using GolfAPI.Core.Contracts.Api;
 using GolfAPI.DataLayer.ADL;
 using GolfAPI.DataLayer.DataModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace GolfAPI.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
+    [EnableCors("AllowAngularApp")]
     public class AuthenticationController : ControllerBase
     {
         private readonly GolfDatabaseContext _context;
@@ -40,7 +42,7 @@ namespace GolfAPI.Controllers
                 //successful login
                 if (user != null && user.Password.Equals(password))
                 {
-                    if (IsRoleEnabledToLogin(user.Role)) { 
+                    if (!IsRoleEnabledToLogin(user.Role)) { 
                         response.Value = new ErrorResponse()
                         {
                             ErrorCode = ErrorCodes.NotPermission,

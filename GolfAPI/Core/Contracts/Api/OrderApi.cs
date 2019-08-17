@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GolfAPI.Core.Contracts.Api
 {
-    
+
     public class OrderApi
     {
         [JsonProperty(PropertyName = "id")]
@@ -21,7 +21,7 @@ namespace GolfAPI.Core.Contracts.Api
         [JsonProperty(PropertyName = "createdBy", NullValueHandling = NullValueHandling.Ignore)]
         public UserApi User { get; set; }
         [JsonProperty(PropertyName = "components", NullValueHandling = NullValueHandling.Ignore)]
-        public ComponentApiResponse[] Components { get; set; }
+        public ComponentApi[] Components { get; set; }
       
     }
 

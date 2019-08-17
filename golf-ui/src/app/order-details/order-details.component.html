@@ -1,0 +1,103 @@
+<div>
+
+  <h3>Order details: <span *ngIf="order" style="color: royalblue">{{order.number}}</span> </h3>
+
+  <div *ngIf="order" class="row">
+    <form class="form" #orderForm="ngForm" (ngSubmit)="submitForm()">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label>Order Number:</label>
+            <input [(ngModel)]="order.number" name="orderNumber" class="form-control" type="text" id="number" required
+              maxlength="16">
+          </div>
+          <div class="form-group">
+            <label>Date Required:</label>
+            <input class="form-control" [(ngModel)]="order.required" name="requiredDate" type="date" required>
+          </div>
+          <div class="form-group">
+            <label>Description:</label>
+            <input [(ngModel)]="order.description" name="orderDescription" class="form-control" type="text">
+          </div>
+          <div *ngIf="order">
+            <h6>Created
+              <span style="color: royalblue;">
+                {{order.created}}
+              </span>
+              by
+              <span style="color: royalblue;">
+                {{order.createdBy.firstname}} {{order.createdBy.lastname}}
+              </span>
+
+            </h6>
+          </div>
+        </div>
+
+        <div *ngIf="order && order.components" class="col-6">
+          <div>
+            <div>
+              <!--TODO: REFACTOR  -->
+              <!-- <app-component-table [components]="order.components"></app-component-table> -->
+              <div class="form-group">
+                <!-- <h3>Components:</h3> -->
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Component Code</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">
+                        <div class="btn btn-success " (click)="addNewComponent()">Add</div>
+                      </th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <div *ngIf="0 < order.components.length">
+                      <tr *ngFor="let item of order.components; let i=index;">
+                        <td>
+                          <input #cmpCode class="form-control" type="text" 
+                            [(ngModel)]="item.componentCode" name="componentCode-{{i}}">
+                        </td>
+                        <td>
+                          <input class="form-control" type="number" [(ngModel)]="item.componentQuantity"
+                            name="componentQuantity-{{i}}">
+                        </td>
+                        <td>
+                          <div class="btn btn-danger" (click)="deleteComponent(i)">delete</div>
+                        </td>
+                      </tr>
+                    </div>
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="btn btn-danger" (click)="navigateBack()">Cancel</div>
+        </div>
+        <div class="col">
+          <div *ngIf="isAddOrder; else updateBlock">
+            <button class="btn btn-success" type="submit" [disabled]="!orderForm.valid">Add new order</button>
+
+          </div>
+          <ng-template #updateBlock>
+            <button class="btn btn-danger" type="submit" [disabled]="!orderForm.valid || !orderForm.dirty">Update
+              Order</button>
+
+          </ng-template>
+        </div>
+      </div>
+
+    </form>
+
+    {{logger()}}
+  </div>
+
+
+</div>
