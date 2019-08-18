@@ -68,6 +68,7 @@ namespace GolfAPI
             //create managers
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<IComponentOrderManager, ComponentOrderManager>();
+            services.AddScoped<IUserManager, UserManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

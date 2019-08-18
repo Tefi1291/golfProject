@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using GolfAPI.Core.Contracts.Api;
+using GolfAPI.Core.Contracts.DataAccess;
+using GolfAPI.Core.Contracts.Managers;
 using GolfAPI.DataLayer.ADL;
 using GolfAPI.DataLayer.DataModels;
 using Microsoft.AspNetCore.Cors;
@@ -17,13 +19,13 @@ namespace GolfAPI.Controllers
     [EnableCors("AllowAngularApp")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly GolfDatabaseContext _context;
+        private readonly IUserManager _userManager;
 
         public AuthenticationController(
-            GolfDatabaseContext databaseContext
+            IUserManager userManager
             )
         {
-            _context = databaseContext;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -33,65 +35,24 @@ namespace GolfAPI.Controllers
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpGet("")]
-        public ObjectResult Login(string username, string password)
+        public async Task<ObjectResult> Login(string username, string password)
         {
-            var response = new ObjectResult("");
-            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+            var result = new ObjectResult("");
+            try
             {
-                var user = _context.Users.FirstOrDefault(u=> u.Username == username);
-                //successful login
-                if (user != null && user.Password.Equals(password))
-                {
-                    if (!IsRoleEnabledToLogin(user.Role)) { 
-                        response.Value = new ErrorResponse()
-                        {
-                            ErrorCode = ErrorCodes.NotPermission,
-                            Description = "You are not enabled to enter the site"
-                        };
-                    }
-                    else { 
-                        response.Value = new LoginResponse()
-                        {
-                            Username = username,
-                            Giud = user.Guid.ToString()
-                        };
-                    }
-                }
-                //user not found
-                else if (user == null)
-                {
-                    response.Value = new ErrorResponse()
-                        {
-                            ErrorCode = ErrorCodes.WrongUsername,
-                            Description = ErrorCodes.WrongUsername.ToString()
-                        };
-                }
-                //wrong password
-                else
-                {
-                    response.Value = new ErrorResponse()
-                    {
-                        ErrorCode = ErrorCodes.WrongPassword,
-                        Description = ErrorCodes.WrongPassword.ToString()
-                    };
-                }
-                
+                var response = _userManager.TryLoginUser(username, password);
+                result = new OkObjectResult(response);
+
             }
-            else
+            catch (Exception e)
             {
-                response.Value = new ErrorResponse()
-                {
-                    ErrorCode = ErrorCodes.BadRequest,
-                    Description = "Invalid User/password"
-                };
+                Console.WriteLine(e);
+                result = new BadRequestObjectResult("");
             }
-            return response;
+            
+            return result;
         }
 
-        private bool IsRoleEnabledToLogin(RoleEnum role)
-        {
-            return role == RoleEnum.Manager;
-        }
         
     }
 }
