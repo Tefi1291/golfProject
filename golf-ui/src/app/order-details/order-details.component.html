@@ -57,11 +57,11 @@
                       <tr *ngFor="let item of order.components; let i=index;">
                         <td>
                           <input #cmpCode class="form-control" type="text" 
-                            [(ngModel)]="item.componentCode" name="componentCode-{{i}}" placeholder="component code">
+                            [(ngModel)]="item.componentCode" name="componentCode-{{i}}" placeholder="component code" required>
                         </td>
                         <td>
                           <input class="form-control" type="number" min="0" [(ngModel)]="item.componentQuantity"
-                            name="componentQuantity-{{i}}" placeholder="quantity">
+                            name="componentQuantity-{{i}}" placeholder="quantity" required>
                         </td>
                         <td>
                           <div class="btn btn-danger" (click)="deleteComponent(i)">delete</div>

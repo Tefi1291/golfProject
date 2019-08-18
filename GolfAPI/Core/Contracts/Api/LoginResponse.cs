@@ -13,5 +13,8 @@ namespace GolfAPI.Core.Contracts.Api
 
         [JsonProperty(PropertyName = "guid")]
         public string Giud { get; set; }
+
+        [JsonProperty(PropertyName = "token")]
+        public string Token { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GolfAPI.DataLayer.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,5 +9,7 @@ namespace GolfAPI.Core.Contracts.Managers
     public interface IUserManager
     {
         object TryLoginUser(string username, string password);
+
+        User GetUserById(int id);
     }
 }
