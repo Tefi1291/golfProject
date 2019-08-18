@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using GolfAPI.Core.Contracts.Api;
 using GolfAPI.Core.Contracts.Managers;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GolfAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowAngularApp")] // allows our angular app to communicate with the controller
+    [Authorize]
+    //[EnableCors("AllowAngularApp")] // allows our angular app to communicate with the controller
     public class OrdersController : ControllerBase
     {
         private readonly IOrderManager _manager;

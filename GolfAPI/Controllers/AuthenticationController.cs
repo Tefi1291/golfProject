@@ -7,6 +7,7 @@ using GolfAPI.Core.Contracts.DataAccess;
 using GolfAPI.Core.Contracts.Managers;
 using GolfAPI.DataLayer.ADL;
 using GolfAPI.DataLayer.DataModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace GolfAPI.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    [EnableCors("AllowAngularApp")]
+    [Authorize]
     public class AuthenticationController : ControllerBase
     {
         private readonly IUserManager _userManager;
@@ -35,6 +36,7 @@ namespace GolfAPI.Controllers
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpGet("")]
+        [AllowAnonymous]
         public async Task<ObjectResult> Login(string username, string password)
         {
             var result = new ObjectResult("");
