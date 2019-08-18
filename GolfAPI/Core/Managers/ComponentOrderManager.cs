@@ -39,7 +39,6 @@ namespace GolfAPI.Core.Managers
                     result.Add(new OrderComponent()
                     {
                         OrderId = orderId,
-                        //Order = model,
                         Component = com,
                         ComponentQuantity = component.Quantity
                     });
@@ -53,18 +52,14 @@ namespace GolfAPI.Core.Managers
 
         public async Task<int> UpdateOrderComponents(int orderId, ComponentApi[] componentQuantity)
         {
-            //traer todos los componentes actuales en la base de datos de orderId
-            //recorrer components[]
-            // actualizar
-
-            // de todos los que estaban en la base de datos, aquellos que no esten en components
-            //se borran
             var dbComponents = _repository.GetByOrderId(orderId);
             
             foreach (var component in componentQuantity)
             {
+                //get the component with same code for the order
                 var dbComponent = dbComponents.Keys.Where(c=> c.ComponentCode == component.ComponentCode)
                     .FirstOrDefault();
+                //if exist -> update
                 if (dbComponent != null)
                 {
                     try
@@ -82,7 +77,11 @@ namespace GolfAPI.Core.Managers
                 }
                 else
                 {
+                    //else check if exist a component with the same code for all the orders
                     var com = _repository.GetComponentByCode(component.ComponentCode);
+                    //if exist, we add a relationship between this component 
+                    // and the order
+                    //if not create a new component
                     if (com == null)
                     {
                         com = new Component()
@@ -90,6 +89,7 @@ namespace GolfAPI.Core.Managers
                             ComponentCode = component.ComponentCode
                         };
                     }
+
                     var newComponent = new OrderComponent()
                     {
                         OrderId = orderId,
@@ -100,15 +100,24 @@ namespace GolfAPI.Core.Managers
                 }
             }
 
-            var componentCodes = (from cq in componentQuantity select cq.ComponentCode).ToList();
-            dbComponents = _repository.GetByOrderId(orderId);
+            var deletedTask = DeleteOldComponentsFromOrder(orderId, componentQuantity);
+            
+            return 0;
+
+        }
+
+
+        private async Task<int> DeleteOldComponentsFromOrder(int orderId, ComponentApi[] newComponents )
+        {
+            var componentCodes = (from cq in newComponents select cq.ComponentCode).ToList();
+            var dbComponents = _repository.GetByOrderId(orderId);
 
             var dbComponentsCodes = from c in dbComponents.Keys select c.ComponentCode;
             var componentsToDelete = dbComponentsCodes.Where(c => !componentCodes.Contains(c));
 
             try
             {
-               await _repository.DeleteComponentsFromOrder(orderId, componentsToDelete.ToArray());
+                await _repository.DeleteComponentsFromOrder(orderId, componentsToDelete.ToArray());
             }
             catch (Exception e)
             {
@@ -116,10 +125,7 @@ namespace GolfAPI.Core.Managers
                 return -1;
             }
             return 0;
-
-
         }
-
         
     }
 }
