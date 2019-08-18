@@ -77,19 +77,20 @@ namespace GolfAPI.DataLayer.DataAccess
 
         public async Task<int> DeleteComponentsFromOrder(int orderId, string[] componentCode)
         {
-
-            foreach (var code in componentCode)
-            {
-                var q = from or in _context.OrdersComponent
-                        join c in _context.Components
-                        on or.OrderId equals orderId
-                        where c.ComponentCode == code
-                        select or;
-                _context.OrdersComponent.RemoveRange(q);
-
+            var result = 0;
+            //get components from componentCodes            
+            var components = from c in _context.Components
+            where componentCode.Contains(c.ComponentCode)
+            select c;
+            //filter only orders components 
+            var toDelete = _context.OrdersComponent.Where(x => x.OrderId == orderId && components.Contains(x.Component));
+            if (0 < toDelete.Count())
+            { 
+                //mark to remove
+                _context.OrdersComponent.RemoveRange(toDelete);
+                //save changes
+                result = await _context.SaveChangesAsync();
             }
-
-            var result = await _context.SaveChangesAsync();
             return result;
         }
 

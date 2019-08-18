@@ -2,6 +2,8 @@
 using GolfAPI.Core.Contracts.Api;
 using GolfAPI.Core.Contracts.DataAccess;
 using GolfAPI.Core.Contracts.Managers;
+using GolfAPI.Core.Contracts.Managers.Builders;
+using GolfAPI.Core.Contracts.Managers.Parsers;
 using GolfAPI.DataLayer.ADL;
 using GolfAPI.DataLayer.DataAccess;
 using GolfAPI.DataLayer.DataModels;
@@ -16,44 +18,32 @@ namespace GolfAPI.Core.Managers
     public class OrderManager: IOrderManager
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IOrderParser _orderParser;
+        private readonly IOrderBuilder _orderBuilder;
 
         private readonly IComponentOrderManager _componentManager;
-        private readonly IComponentRepository _componentRepository;
 
         public OrderManager(
             IOrderRepository orderRepository,
-            IUserRepository userRepository,
-            IComponentOrderManager componentManager,
-            IComponentRepository componentRepository
+            IOrderParser orderParser,
+            IOrderBuilder orderBuilder,
+            IComponentOrderManager componentManager
+
             )
         {
             _orderRepository = orderRepository;
-            _userRepository = userRepository;
-            _componentRepository = componentRepository;
             _componentManager = componentManager;
+
+            _orderParser = orderParser;
+            _orderBuilder = orderBuilder;
         }
 
         public async Task<IEnumerable<OrderApi>> ProcessOrders(int? Id = null)
         {
-            var result = new List<OrderApi>();
             // get orders from repository
             var orders = await GetOrdersFromRepository(Id);
-
             // Parser
-            foreach(var currentOrder in orders.ToList())
-            {
-                var orderData = ParserCommonOrdersData(currentOrder);
-                // get user that created the order
-                orderData.User = ParserUserData(currentOrder);
-                //Get build components from order
-                var componentsDetails = ParserComponentsDetails(currentOrder);
-                orderData.Components = (0 < componentsDetails.Count()) 
-                                            ? componentsDetails.ToArray()
-                                            : null;
-                result.Add(orderData);
-            }
-
+            var result = _orderParser.ParserOrdersToApi(orders);
             return result;  
         }
 
@@ -64,9 +54,8 @@ namespace GolfAPI.Core.Managers
             var result = 0;
             if (data != null)
             {
-                
 
-                var model = BuildOrder(data);
+                var model = _orderBuilder.BuildOrderFromApi(data);
                 
                 try
                 {
@@ -85,7 +74,6 @@ namespace GolfAPI.Core.Managers
         {
             if (data != null)
             {
-                //var model = BuildOrder(data);
                 try
                 {
                     //get the order
@@ -110,53 +98,6 @@ namespace GolfAPI.Core.Managers
             return 0;
         }
 
-        private UserApi ParserUserData(Order order)
-        {
-            var UserId = order.UserForeignKey;
-            var currentUser = _userRepository.GetUserById(UserId);
-
-            var result = new UserApi()
-            {
-                Id = currentUser.Id,
-                Firstname = currentUser.Firstname,
-                Lastname = currentUser.Lastname
-            };
-
-            return result;
-        }
-
-        private IEnumerable<ComponentApi> ParserComponentsDetails(Order order)
-        {
-            var result = new List<ComponentApi>();
-
-            var components = _componentRepository.GetByOrderId(order.Id);
-            foreach (var c in components)
-            {
-                result.Add(new ComponentApi()
-                {
-                    ComponentId = c.Key.Id,
-                    ComponentCode = c.Key.ComponentCode,
-                    Quantity = c.Value
-                });
-            }
-            return result;
-        }
-
-        private OrderApi ParserCommonOrdersData(Order order)
-        {
-            //build result
-            var result = new OrderApi()
-            {
-                Id = order.Id,
-                DateCreated = order.DateCreated.ToString("dd-MM-yyyy"),
-                DateRequired = order.DateRequired.ToString("dd-MM-yyyy"),
-                Description = order.Description,
-                OrderNumber = order.OrderNumber,
-            };
-
-            return result;
-        }
-
         private async Task<IEnumerable<Order>> GetOrdersFromRepository(int? orderId = null)
         {
             var ordersModel = new List<Order>();
@@ -173,50 +114,6 @@ namespace GolfAPI.Core.Managers
             return ordersModel;
         }
 
-        // TODO refactor to builder 
-        private Order BuildOrder(OrderApi data)
-        {
-            var user = _userRepository.GetUserByGuid(data.User.Guid);
-            if (string.IsNullOrEmpty(data.User?.Guid) || user == null)
-            {
-                throw new Exception("The user not exist");
-            }
-
-            var model = new Order()
-            {
-                OrderNumber = data.OrderNumber,
-                DateRequired = DateTime.Parse(data.DateRequired),
-                DateCreated = DateTime.Now,
-                Description = data.Description,
-                CreatedBy = user,
-                Components = new List<OrderComponent>()
-            };
-
-            if (data.Components != null && 0 < data.Components.Count())
-            {
-                foreach (var component in data.Components)
-                {
-                    var com = _componentRepository.GetComponentByCode(component.ComponentCode);
-                    if (com == null)
-                    {
-                        com = new Component()
-                        {
-                            ComponentCode = component.ComponentCode
-                        };
-                    }
-                    model.Components.Add(new OrderComponent()
-                    {
-
-                        Order = model,
-                        Component = com,
-                        ComponentQuantity = component.Quantity
-                    });
-
-
-                }
-
-            }
-            return model;
-        }
+        
     }
 }

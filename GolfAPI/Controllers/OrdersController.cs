@@ -91,21 +91,8 @@ namespace GolfAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<OrderApi>> DeleteOrder(int id)
         {
-            //var order = await _context.Orders.FindAsync(id);
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.Orders.Remove(order);
-            //await _context.SaveChangesAsync();
-
-            return null;
+            return new NotFoundResult();
         }
 
-        private bool OrderExists(int id)
-        {
-            return true;
-        }
     }
 }

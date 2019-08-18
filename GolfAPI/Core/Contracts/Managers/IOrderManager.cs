@@ -8,6 +8,13 @@ namespace GolfAPI.Core.Contracts.Managers
 {
     public interface IOrderManager
     {
+        /// <summary>
+        /// Process orders, 
+        /// if id's value, will process order with Id=id,
+        /// else will process all orders 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         Task<IEnumerable<OrderApi>> ProcessOrders(int? Id = null );
 
         Task<int> AddNewOrder(OrderApi data);

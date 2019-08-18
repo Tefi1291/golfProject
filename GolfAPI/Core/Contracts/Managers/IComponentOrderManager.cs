@@ -10,7 +10,7 @@ namespace GolfAPI.Core.Contracts.Managers
     public interface IComponentOrderManager
     {
         IEnumerable<OrderComponent> BuildComponentsOrder(int orderId, ComponentApi[] components);
-        Task<int> AddComponentsFromOrder(int orderId, ComponentApi[] componentsQuantity);
+
         Task<int> UpdateOrderComponents(int orderId, ComponentApi[] componentQuantity);
     }
 }

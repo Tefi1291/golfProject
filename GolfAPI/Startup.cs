@@ -2,7 +2,11 @@
 using GolfAPI.Core.Contracts;
 using GolfAPI.Core.Contracts.DataAccess;
 using GolfAPI.Core.Contracts.Managers;
+using GolfAPI.Core.Contracts.Managers.Builders;
+using GolfAPI.Core.Contracts.Managers.Parsers;
 using GolfAPI.Core.Managers;
+using GolfAPI.Core.Managers.Builders;
+using GolfAPI.Core.Managers.parsers;
 using GolfAPI.DataLayer.ADL;
 using GolfAPI.DataLayer.DataAccess;
 using Microsoft.AspNetCore.Builder;
@@ -57,6 +61,9 @@ namespace GolfAPI
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IComponentRepository, ComponentRepository>();
+
+            services.AddScoped<IOrderParser, OrderParser>();
+            services.AddScoped<IOrderBuilder, OrderBuilder>();
 
             //create managers
             services.AddScoped<IOrderManager, OrderManager>();

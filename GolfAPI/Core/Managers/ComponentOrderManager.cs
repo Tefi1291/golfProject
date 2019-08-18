@@ -51,13 +51,6 @@ namespace GolfAPI.Core.Managers
             return result;
         }
 
-
-        public Task<int> AddComponentsFromOrder(int orderId, ComponentApi[] componentsQuantity)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public async Task<int> UpdateOrderComponents(int orderId, ComponentApi[] componentQuantity)
         {
             //traer todos los componentes actuales en la base de datos de orderId
@@ -108,13 +101,14 @@ namespace GolfAPI.Core.Managers
             }
 
             var componentCodes = (from cq in componentQuantity select cq.ComponentCode).ToList();
+            dbComponents = _repository.GetByOrderId(orderId);
 
             var dbComponentsCodes = from c in dbComponents.Keys select c.ComponentCode;
             var componentsToDelete = dbComponentsCodes.Where(c => !componentCodes.Contains(c));
 
             try
             {
-                await _repository.DeleteComponentsFromOrder(orderId, componentsToDelete.ToArray());
+               await _repository.DeleteComponentsFromOrder(orderId, componentsToDelete.ToArray());
             }
             catch (Exception e)
             {
