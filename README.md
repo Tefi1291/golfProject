@@ -2,7 +2,7 @@
 </b>
 
 Technical Test 
-Basic OMS built on Angular 7, .Net Core 2.2, Entity framework core.
+<br> OMS built on Angular 7, .Net Core 2.2, Entity framework core.
 
 Build Steps:
 1) <b>Run API</b> Execute batch file "runApi.cmd", path: <b>"/GolfAPI/runAPI.cmd".</b> (This file will create and seed a SQL Server database).
